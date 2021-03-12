@@ -24,7 +24,6 @@ module.exports = {
           label: 'Docs',
           position: 'right',
         },
-        // { to: 'blog', label: 'Blog', position: 'right' },
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
@@ -53,12 +52,6 @@ module.exports = {
           // Please change this to your repo.
           editUrl:
             'https://github.com/yogeshdecodes/confcube-docs/edit/master/website/',
-        },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            'https://github.com/yogeshdecodes/confcube-docs/edit/master/website/blog/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
