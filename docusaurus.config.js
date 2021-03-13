@@ -12,7 +12,6 @@ module.exports = {
   themeConfig: {
     hideableSidebar: true,
     navbar: {
-      // title: 'My Site',
       logo: {
         alt: 'My Site Logo',
         src: 'img/logo.svg',
@@ -49,7 +48,6 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
           editUrl:
             'https://github.com/yogeshdecodes/confcube-docs/edit/master/website/',
         },

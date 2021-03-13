@@ -3,12 +3,92 @@ id: doc5
 title: Gatsby.js
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac euismod odio, eu consequat dui. Nullam molestie consectetur risus id imperdiet. Proin sodales ornare turpis, non mollis massa ultricies id. Nam at nibh scelerisque, feugiat ante non, dapibus tortor. Vivamus volutpat diam quis tellus elementum bibendum. Praesent semper gravida velit quis aliquam. Etiam in cursus neque. Nam lectus ligula, malesuada et mauris a, bibendum faucibus mi. Phasellus ut interdum felis. Phasellus in odio pulvinar, porttitor urna eget, fringilla lectus. Aliquam sollicitudin est eros. Mauris consectetur quam vitae mauris interdum hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+![Gatsby.js Trend](https://yogeshdecodes.com.io/static/images/learn-nextjs/nextjs-trend.png)
 
-Duis et egestas libero, imperdiet faucibus ipsum. Sed posuere eget urna vel feugiat. Vivamus a arcu sagittis, fermentum urna dapibus, congue lectus. Fusce vulputate porttitor nisl, ac cursus elit volutpat vitae. Nullam vitae ipsum egestas, convallis quam non, porta nibh. Morbi gravida erat nec neque bibendum, eu pellentesque velit posuere. Fusce aliquam erat eu massa eleifend tristique.
+You've heard great things about this new web framework called [Gatsby.js](https://Gatsbyjs.org/),
+but you're still not sure _why_ people are using it.
 
-Sed consequat sollicitudin ipsum eget tempus. Integer a aliquet velit. In justo nibh, pellentesque non suscipit eget, gravida vel lacus. Donec odio ante, malesuada in massa quis, pharetra tristique ligula. Donec eros est, tristique eget finibus quis, semper non nisl. Vivamus et elit nec enim ornare placerat. Sed posuere odio a elit cursus sagittis.
+One way to understand why you should learn Gatsby.js is to understand what problems it solves. This directly translates to why it's become so popular.
 
-Phasellus feugiat purus eu tortor ultrices finibus. Ut libero nibh, lobortis et libero nec, dapibus posuere eros. Sed sagittis euismod justo at consectetur. Nulla finibus libero placerat, cursus sapien at, eleifend ligula. Vivamus elit nisl, hendrerit ac nibh eu, ultrices tempus dui. Nam tellus neque, commodo non rhoncus eu, gravida in risus. Nullam id iaculis tortor.
+### Why use a framework?
 
-Nullam at odio in sem varius tempor sit amet vel lorem. Etiam eu hendrerit nisl. Fusce nibh mauris, vulputate sit amet ex vitae, congue rhoncus nisl. Sed eget tellus purus. Nullam tempus commodo erat ut tristique. Cras accumsan massa sit amet justo consequat eleifend. Integer scelerisque vitae tellus id consectetur.
+Let's say you're a new startup trying to launch a website. You might have some requirements like:
+
+- Splash page with information about the product
+- About page describing the team
+- Frequently asked questions
+- Capture leads through a contact form
+- Subscribe to a newsletter
+
+There's nothing in these requirements which dictate the need for a framework.
+You could absolutely deliver on these requirements using vanilla HTML, CSS, and JavaScript.
+
+However, if we have some foresight, we might know that future requirements call for a user authentication flow and the beginnings of a SaaS product.
+
+**The real value in using a framework** is developer productivity, shared knowledge, code reuse, and creating a platform for the future.
+If we start with React/Gatsby.js, we can satisfy the initial requirements with ease _and_ pave the way for the next iteration of the product.
+
+### React
+
+[React](https://reactjs.org/) has become the industry standard for building modern web applications.
+Of 90,000 developers [surveyed by Stack Overflow](https://insights.stackoverflow.com/survey/2019), React was the most loved and most wanted web framework.
+
+Why? With React, you can build anything from simple marketing splash pages to full-fledged web applications on the scale of Facebook.
+It's flexible and composable. Developers love this.
+
+![React.js Trend](https://yogeshdecodes.com.io/static/images/learn-nextjs/react-trend.png)
+
+This trend means that more developers than ever are learning React, and thus JavaScript as well.
+It's become one of the hottest skills recruiters are looking for. JavaScript is the [#1 language used](https://octoverse.github.com/) according to GitHub.
+
+[![GitHub Octoberse](https://yogeshdecodes.com.io/static/images/learn-nextjs/github.png)](https://octoverse.github.com/)
+
+For companies, this means you're more likely to find employees who already know React.
+For developers, this makes a very advantageous skill to add to your skillset.
+
+According to [NPM trends](https://www.npmtrends.com/), it's outpacing other web frameworks like Angular and Vue by **~5 million installs/day**.
+
+![NPM Install Trend](https://yogeshdecodes.com.io/static/images/learn-nextjs/npm-trend.png)
+
+This doesn't mean React is perfect. Since you're loading content client-side, you have to
+wait for the JavaScript bundle to load before you can determine what to show on the page. This can be problematic for users
+with slower connections.
+
+Plus, search engines still struggle with indexing client-side JavaScript applications.
+If you're concerned about Search Engine Optimization (SEO) and want your content indexed faster, it's better to send the markup from the server.
+Enter Gatsby.js.
+
+### Gatsby.js
+
+[Gatsby.js](https://Gatsbyjs.org/) solves both of those problems using server-rendering or static-site generation. Gatsby's framework allows you to build scalable, performant React code without the configuration hassle.
+That's why so many companies depend on Gatsby for shipping production applications.
+
+![Companies using Gatsby.js](https://yogeshdecodes.com.io/static/images/learn-nextjs/companies.png)
+
+- 350k+ Gatsby.js devs (30% of all React devs)
+- 60+ Alexa top 10k sites built using Gatsby.js
+- Over 35,000 production sites
+- 300k weekly NPM downloads
+- Used by companies like Nike, Uber, Hulu, Twitch, and GitHub
+
+### Zero-Config Approach
+
+To ship a performant React application, there are many things you must do right.
+You'll want to correctly configure [Babel](https://babeljs.io/) so you can use modern JavaScript features, but still support legacy browsers.
+You'll also want to bundle up all of your assets (e.g. multiple JavaScript files) to be included in your HTML file (using something like [Webpack](https://webpack.js.org/)). The list goes on.
+
+Wouldn't it be nice to not have to worry about this?
+
+This "JavaScript fatigue" prompted the creation of [Create React App](https://github.com/facebook/create-react-app) (CRA), which dramatically improved the developer experience of spinning up a new React app. But can we do better?
+
+- Gatsby.js supports IE10 and all modern browsers out of the box. Babel is configured for you, with an escape hatch to override if you need to.
+- CRA combines all the JavaScript files into a single bundle, whereas Gatsby.js has support for code splitting out of the box. When I visit `/route`, we're **only loading the JavaScript used on that page**. Better performance!
+- Want to handle routing with CRA? That will require [react-router](https://reacttraining.com/react-router/) (or a similar library). Gatsby.js has file-system based routing out of the box. No extra installation!
+
+### Hybrid Approach
+
+Gatsby is unique among front-end and JAMstack frameworks because it seamlessly allows developers to grow from static sites to server-rendered sites as requirements change. No matter what [data fetching](/data-fetching) strategy you need, you can stay within the bounds of the framework.
+
+- **Static Sites** – Blazing-fast JAMstack websites.
+- **Server Side Rendering** – Great for SEO and load performance.
+- **Pre-Rendering** – Best of both worlds. Blazing-fast website + scale traffic effortlessly.
