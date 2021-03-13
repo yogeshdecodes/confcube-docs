@@ -3,12 +3,34 @@ id: doc3
 title: Getting Started
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac euismod odio, eu consequat dui. Nullam molestie consectetur risus id imperdiet. Proin sodales ornare turpis, non mollis massa ultricies id. Nam at nibh scelerisque, feugiat ante non, dapibus tortor. Vivamus volutpat diam quis tellus elementum bibendum. Praesent semper gravida velit quis aliquam. Etiam in cursus neque. Nam lectus ligula, malesuada et mauris a, bibendum faucibus mi. Phasellus ut interdum felis. Phasellus in odio pulvinar, porttitor urna eget, fringilla lectus. Aliquam sollicitudin est eros. Mauris consectetur quam vitae mauris interdum hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Let's get started building our application!
+If you haven't used Next.js before, you might need to update your version of Node.js.
 
-Duis et egestas libero, imperdiet faucibus ipsum. Sed posuere eget urna vel feugiat. Vivamus a arcu sagittis, fermentum urna dapibus, congue lectus. Fusce vulputate porttitor nisl, ac cursus elit volutpat vitae. Nullam vitae ipsum egestas, convallis quam non, porta nibh. Morbi gravida erat nec neque bibendum, eu pellentesque velit posuere. Fusce aliquam erat eu massa eleifend tristique.
+### System Requirements
 
-Sed consequat sollicitudin ipsum eget tempus. Integer a aliquet velit. In justo nibh, pellentesque non suscipit eget, gravida vel lacus. Donec odio ante, malesuada in massa quis, pharetra tristique ligula. Donec eros est, tristique eget finibus quis, semper non nisl. Vivamus et elit nec enim ornare placerat. Sed posuere odio a elit cursus sagittis.
+- [Node.js 10.13](https://nodejs.org/en/) or later
+- MacOS, Windows (including WSL), and Linux are supported
 
-Phasellus feugiat purus eu tortor ultrices finibus. Ut libero nibh, lobortis et libero nec, dapibus posuere eros. Sed sagittis euismod justo at consectetur. Nulla finibus libero placerat, cursus sapien at, eleifend ligula. Vivamus elit nisl, hendrerit ac nibh eu, ultrices tempus dui. Nam tellus neque, commodo non rhoncus eu, gravida in risus. Nullam id iaculis tortor.
+### Editor
 
-Nullam at odio in sem varius tempor sit amet vel lorem. Etiam eu hendrerit nisl. Fusce nibh mauris, vulputate sit amet ex vitae, congue rhoncus nisl. Sed eget tellus purus. Nullam tempus commodo erat ut tristique. Cras accumsan massa sit amet justo consequat eleifend. Integer scelerisque vitae tellus id consectetur.
+[VSCode](https://code.visualstudio.com/) is my preferred editor. The theme I use is called "Sorcerer"
+and you can find a list of all my extensions [here](https://github.com/yogeshdecodes.com/confcube/blob/master/.vscode/extensions.json).
+
+### Create Application
+
+In this course, I will use `yarn` instead of `npm`. You are free to use whichever you prefer.
+
+```bash
+yarn create next-app
+```
+
+This creates our new Next.js application and installs `next`, `react` and `react-dom`.
+Inside our `package.json`, we now have access to start the application.
+
+- `dev` - Runs `next` which starts Next.js in development mode.
+- `build` - Runs `next build` which builds the application for production usage.
+- `start` - Runs `next start` which starts a Next.js production server.
+
+Run `yarn dev` to view the application at `http://localhost:3000`.
+
+If you don't want to code along, you can also view the [completed source code](https://github.com/yogeshdecodes.com/confcube).

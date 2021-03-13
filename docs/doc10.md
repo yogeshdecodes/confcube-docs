@@ -3,12 +3,111 @@ id: doc9
 title: Saving User Data
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac euismod odio, eu consequat dui. Nullam molestie consectetur risus id imperdiet. Proin sodales ornare turpis, non mollis massa ultricies id. Nam at nibh scelerisque, feugiat ante non, dapibus tortor. Vivamus volutpat diam quis tellus elementum bibendum. Praesent semper gravida velit quis aliquam. Etiam in cursus neque. Nam lectus ligula, malesuada et mauris a, bibendum faucibus mi. Phasellus ut interdum felis. Phasellus in odio pulvinar, porttitor urna eget, fringilla lectus. Aliquam sollicitudin est eros. Mauris consectetur quam vitae mauris interdum hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Firebase Authentication doesn't provide a way to directly add more information about a user. Instead, you need to create a new `users` table with Firestore where you'll add additional information for each user.
 
-Duis et egestas libero, imperdiet faucibus ipsum. Sed posuere eget urna vel feugiat. Vivamus a arcu sagittis, fermentum urna dapibus, congue lectus. Fusce vulputate porttitor nisl, ac cursus elit volutpat vitae. Nullam vitae ipsum egestas, convallis quam non, porta nibh. Morbi gravida erat nec neque bibendum, eu pellentesque velit posuere. Fusce aliquam erat eu massa eleifend tristique.
+For this product, we want to know what pricing tier the user has so we can determine their usage limits. We also want to know the `provider` so we can show which platform the user authenticated with.
 
-Sed consequat sollicitudin ipsum eget tempus. Integer a aliquet velit. In justo nibh, pellentesque non suscipit eget, gravida vel lacus. Donec odio ante, malesuada in massa quis, pharetra tristique ligula. Donec eros est, tristique eget finibus quis, semper non nisl. Vivamus et elit nec enim ornare placerat. Sed posuere odio a elit cursus sagittis.
+### Create / Update User
 
-Phasellus feugiat purus eu tortor ultrices finibus. Ut libero nibh, lobortis et libero nec, dapibus posuere eros. Sed sagittis euismod justo at consectetur. Nulla finibus libero placerat, cursus sapien at, eleifend ligula. Vivamus elit nisl, hendrerit ac nibh eu, ultrices tempus dui. Nam tellus neque, commodo non rhoncus eu, gravida in risus. Nullam id iaculis tortor.
+Let's create a new file `lib/db.js` to perform [CRUD actions](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) on the database.
 
-Nullam at odio in sem varius tempor sit amet vel lorem. Etiam eu hendrerit nisl. Fusce nibh mauris, vulputate sit amet ex vitae, congue rhoncus nisl. Sed eget tellus purus. Nullam tempus commodo erat ut tristique. Cras accumsan massa sit amet justo consequat eleifend. Integer scelerisque vitae tellus id consectetur.
+**`lib/db.js`**
+
+```js
+import firebase from './firebase';
+
+const firestore = firebase.firestore();
+
+export function updateUser(uid, data) {
+  return firestore.collection('users').doc(uid).update(data);
+}
+
+export function createUser(uid, data) {
+  return firestore
+    .collection('users')
+    .doc(uid)
+    .set({ uid, ...data }, { merge: true });
+}
+```
+
+### Update Auth Hook
+
+Now, let's consume the `createUser` function inside our `useAuth` hook.
+
+**`lib/auth.js`**
+
+```javascript {3,23}
+import React, { useState, useEffect, useContext, createContext } from 'react';
+import firebase from './firebase';
+import { createUser } from './db';
+
+const authContext = createContext();
+
+export function AuthProvider({ children }) {
+  const auth = useProvideAuth();
+  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+}
+
+export const useAuth = () => {
+  return useContext(authContext);
+};
+
+function useProvideAuth() {
+  const [user, setUser] = useState(null);
+
+  const handleUser = (rawUser) => {
+    if (rawUser) {
+      const user = formatUser(rawUser);
+
+      createUser(user.uid, user);
+      setUser(user);
+      return user;
+    } else {
+      setUser(false);
+      return false;
+    }
+  };
+
+  const signinWithGitHub = () => {
+    return firebase
+      .auth()
+      .signInWithPopup(new firebase.auth.GithubAuthProvider())
+      .then((response) => handleUser(response.user));
+  };
+
+  const signout = () => {
+    return firebase
+      .auth()
+      .signOut()
+      .then(() => handleUser(false));
+  };
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(handleUser);
+
+    return () => unsubscribe();
+  }, []);
+
+  return {
+    user,
+    signinWithGitHub,
+    signout,
+  };
+}
+
+const formatUser = (user) => {
+  return {
+    uid: user.uid,
+    email: user.email,
+    name: user.displayName,
+    provider: user.providerData[0].providerId,
+    photoUrl: user.photoURL,
+  };
+};
+```
+
+## Testing
+
+Delete your user from the Firebase Console. Then, re-sign in with GitHub. You should now see a new row in the `users` table in Firestore.
+
+<!-- ![Firestore User Table](/firestore-user-created.png) -->

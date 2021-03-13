@@ -3,12 +3,69 @@ id: doc11
 title: Adding Firebase Client-Side
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac euismod odio, eu consequat dui. Nullam molestie consectetur risus id imperdiet. Proin sodales ornare turpis, non mollis massa ultricies id. Nam at nibh scelerisque, feugiat ante non, dapibus tortor. Vivamus volutpat diam quis tellus elementum bibendum. Praesent semper gravida velit quis aliquam. Etiam in cursus neque. Nam lectus ligula, malesuada et mauris a, bibendum faucibus mi. Phasellus ut interdum felis. Phasellus in odio pulvinar, porttitor urna eget, fringilla lectus. Aliquam sollicitudin est eros. Mauris consectetur quam vitae mauris interdum hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Now that we've set up Firebase for authentication and storing data, we need to add it to our application.
 
-Duis et egestas libero, imperdiet faucibus ipsum. Sed posuere eget urna vel feugiat. Vivamus a arcu sagittis, fermentum urna dapibus, congue lectus. Fusce vulputate porttitor nisl, ac cursus elit volutpat vitae. Nullam vitae ipsum egestas, convallis quam non, porta nibh. Morbi gravida erat nec neque bibendum, eu pellentesque velit posuere. Fusce aliquam erat eu massa eleifend tristique.
+### Installation
 
-Sed consequat sollicitudin ipsum eget tempus. Integer a aliquet velit. In justo nibh, pellentesque non suscipit eget, gravida vel lacus. Donec odio ante, malesuada in massa quis, pharetra tristique ligula. Donec eros est, tristique eget finibus quis, semper non nisl. Vivamus et elit nec enim ornare placerat. Sed posuere odio a elit cursus sagittis.
+First, we need to install the `firebase` client-side SDK.
 
-Phasellus feugiat purus eu tortor ultrices finibus. Ut libero nibh, lobortis et libero nec, dapibus posuere eros. Sed sagittis euismod justo at consectetur. Nulla finibus libero placerat, cursus sapien at, eleifend ligula. Vivamus elit nisl, hendrerit ac nibh eu, ultrices tempus dui. Nam tellus neque, commodo non rhoncus eu, gravida in risus. Nullam id iaculis tortor.
+```bash
+$ yarn add firebase@7.17.1
+```
 
-Nullam at odio in sem varius tempor sit amet vel lorem. Etiam eu hendrerit nisl. Fusce nibh mauris, vulputate sit amet ex vitae, congue rhoncus nisl. Sed eget tellus purus. Nullam tempus commodo erat ut tristique. Cras accumsan massa sit amet justo consequat eleifend. Integer scelerisque vitae tellus id consectetur.
+This course uses `v7.17.1` of Firebase. If you'd prefer to use a later version, please see [this issue](https://github.com/yogeshdecodes.com/confcube/issues/25).
+
+### Environment Variables
+
+Next.js comes with built-in support for environment variables. To connect to Firebase, we need to provide our secrets from earlier.
+We do not want to commit secrets to git, so we should use [environment variables](https://nextjs.org/docs/basic-features/environment-variables).
+
+To add environment variables with Next.js, you need to create an `.env` and `.env.local` file.
+
+- `.env` can contain _any_ environment variables. We will commit this file. It's helpful to include this with empty values for secrets to show all the environment variables in use.
+- `.env.local` will contains our secrets. We **do not** commit this file.
+
+**`.env`**
+
+```
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+```
+
+**`.env.local`**
+
+```
+NEXT_PUBLIC_FIREBASE_API_KEY=AIzaSyCes_HM5fdsJOU352-asdf253HKsd
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-app-1j324.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-app-1j324
+```
+
+The `NEXT_PUBLIC_` prefix [makes the secrets available](https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables) in our client-side Next.js application.
+
+:::note
+For example, Next.js will replace `process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID` with its value `your-app-1j324`.
+:::
+
+### Firebase Client
+
+We can now securely connect to Firebase. Create a new file `lib/firebase.js` to initialize the application and establish a connection. We only need to establish the connection once, hence the `if` statement.
+
+**`lib/firebase.js`**
+
+```javascript
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/functions';
+import 'firebase/firestore';
+
+if (!firebase.apps.length) {
+  firebase.initializeApp({
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  });
+}
+
+export default firebase;
+```

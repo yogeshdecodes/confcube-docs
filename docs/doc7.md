@@ -3,12 +3,73 @@ id: doc7
 title: Setting Up Firebase
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac euismod odio, eu consequat dui. Nullam molestie consectetur risus id imperdiet. Proin sodales ornare turpis, non mollis massa ultricies id. Nam at nibh scelerisque, feugiat ante non, dapibus tortor. Vivamus volutpat diam quis tellus elementum bibendum. Praesent semper gravida velit quis aliquam. Etiam in cursus neque. Nam lectus ligula, malesuada et mauris a, bibendum faucibus mi. Phasellus ut interdum felis. Phasellus in odio pulvinar, porttitor urna eget, fringilla lectus. Aliquam sollicitudin est eros. Mauris consectetur quam vitae mauris interdum hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+[Firebase](https://firebase.google.com/) is a Backend-as-a-Service (BaaS) built on Google Cloud.
+It's an excellent way to build and grow applications. Firebase's interface is easy to navigate, and it has a generous [free tier](https://firebase.google.com/pricing).
+Firebase ([Firestore](https://firebase.google.com/products/firestore/)) is categorized as a [NoSQL](https://en.wikipedia.org/wiki/NoSQL) database, which stores data in JSON-like documents.
 
-Duis et egestas libero, imperdiet faucibus ipsum. Sed posuere eget urna vel feugiat. Vivamus a arcu sagittis, fermentum urna dapibus, congue lectus. Fusce vulputate porttitor nisl, ac cursus elit volutpat vitae. Nullam vitae ipsum egestas, convallis quam non, porta nibh. Morbi gravida erat nec neque bibendum, eu pellentesque velit posuere. Fusce aliquam erat eu massa eleifend tristique.
+We'll utilize two features of Firebase in this course.
 
-Sed consequat sollicitudin ipsum eget tempus. Integer a aliquet velit. In justo nibh, pellentesque non suscipit eget, gravida vel lacus. Donec odio ante, malesuada in massa quis, pharetra tristique ligula. Donec eros est, tristique eget finibus quis, semper non nisl. Vivamus et elit nec enim ornare placerat. Sed posuere odio a elit cursus sagittis.
+- **Authentication** – In this application, we will require logging in with a social media account. Firebase Authentication makes it easy to add login support for Google, GitHub, and more.
+- **Database** – Firestore will allow us to easily save information about users, pages, and more.
 
-Phasellus feugiat purus eu tortor ultrices finibus. Ut libero nibh, lobortis et libero nec, dapibus posuere eros. Sed sagittis euismod justo at consectetur. Nulla finibus libero placerat, cursus sapien at, eleifend ligula. Vivamus elit nisl, hendrerit ac nibh eu, ultrices tempus dui. Nam tellus neque, commodo non rhoncus eu, gravida in risus. Nullam id iaculis tortor.
+### Create Database
 
-Nullam at odio in sem varius tempor sit amet vel lorem. Etiam eu hendrerit nisl. Fusce nibh mauris, vulputate sit amet ex vitae, congue rhoncus nisl. Sed eget tellus purus. Nullam tempus commodo erat ut tristique. Cras accumsan massa sit amet justo consequat eleifend. Integer scelerisque vitae tellus id consectetur.
+- If you do not have a Firebase account, create one first.
+- Create a new project.
+- Navigate to **Cloud Firestore** and click **Create Database**.
+- Start in test mode and click **Next**.
+  <!-- ![Create Firebase Database](/create-db.png) -->
+- Choose your database location and click **Enable**.
+  <!-- ![Create Firebase Database](/enable.png) -->
+
+Success! You've just created your Firestore database. Now, let's save our credentials.
+
+### Save Credentials
+
+- In the top left, click **Project Settings**.
+  <!-- ![Project Settings](/project-settings.png) -->
+- Under **Your apps**, click web.
+  <!-- ![Create Web App](/create-app.png) -->
+- Add a nickname for your app and click **Register app**.
+- Save the `firebaseConfig` object and click **Continue to console**.
+  <!-- ![Firebase Web App](/firebase-web-app.png) -->
+- Navigate to the **Service Accounts** tab and click **Generate new private key**. Save the `.json` file.
+  ![Create Firebase Database](https://yogeshdecodes.com.io/static/images/real-time-post-views/firebase/step5.png)
+
+We can now connect to our Firebase account from both the client-side and server-side. You'll need these values in the next section when we're creating environment variables.
+
+### GitHub Authentication
+
+To start, let's focus on GitHub for social authentication. Later, we can add more providers. First, we need to create a GitHub OAuth Application.
+
+#### Enable GitHub Sign-In
+
+- Inside the Firebase Console, click **Authentication**.
+- Click the **Sign-in method** tab.
+- Click **GitHub** and toggle the switch to enable.
+- Copy the callback URL.
+
+#### Create GitHub OAuth App
+
+- Start [here](https://github.com/settings/applications/new).
+- In **Application name**, type the name of your app.
+- In **Homepage URL**, type the full URL to your app's website. If you don't have a URL yet, you can use a valid placeholder URL.
+- Optionally, in **Description**, type a description of your app that users will see.
+- In **Authorization callback URL**, paste in the URL from the Firebase Console.
+- Click **Register application**.
+- Copy **Client ID** and **Client secret**.
+
+<!-- ![Firebase Auth](/firebase-auth.png) -->
+
+- Return to the Firebase Console
+- Paste **Client ID** and **Client secret**.
+- Click **Save**.
+
+#### Add Authorized Domains
+
+By default, `localhost` is an authorized domain. As we deploy Firebase to production, we'll want to also add our domain to the list so we can log in.
+
+- Underneath the **Sign-in providers**, click **Add domain**.
+- Enter in the production URL for your application (e.g. confcube.vercel.app)
+- Enter in the URL for your Vercel preview deploys -> `vercel.app`
+- Click **Add**.

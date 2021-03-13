@@ -3,12 +3,80 @@ id: doc10
 title: Security Rules
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac euismod odio, eu consequat dui. Nullam molestie consectetur risus id imperdiet. Proin sodales ornare turpis, non mollis massa ultricies id. Nam at nibh scelerisque, feugiat ante non, dapibus tortor. Vivamus volutpat diam quis tellus elementum bibendum. Praesent semper gravida velit quis aliquam. Etiam in cursus neque. Nam lectus ligula, malesuada et mauris a, bibendum faucibus mi. Phasellus ut interdum felis. Phasellus in odio pulvinar, porttitor urna eget, fringilla lectus. Aliquam sollicitudin est eros. Mauris consectetur quam vitae mauris interdum hendrerit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Firebase Security Rules stand between your data and malicious users. You can write simple or complex rules that protect your app's data to the level of granularity that your specific app requires.
 
-Duis et egestas libero, imperdiet faucibus ipsum. Sed posuere eget urna vel feugiat. Vivamus a arcu sagittis, fermentum urna dapibus, congue lectus. Fusce vulputate porttitor nisl, ac cursus elit volutpat vitae. Nullam vitae ipsum egestas, convallis quam non, porta nibh. Morbi gravida erat nec neque bibendum, eu pellentesque velit posuere. Fusce aliquam erat eu massa eleifend tristique.
+## Writing Rules
 
-Sed consequat sollicitudin ipsum eget tempus. Integer a aliquet velit. In justo nibh, pellentesque non suscipit eget, gravida vel lacus. Donec odio ante, malesuada in massa quis, pharetra tristique ligula. Donec eros est, tristique eget finibus quis, semper non nisl. Vivamus et elit nec enim ornare placerat. Sed posuere odio a elit cursus sagittis.
+All Cloud Firestore Security Rules consist of `match` statements, which identify documents in your database, and `allow` expressions, which control access to those documents:
 
-Phasellus feugiat purus eu tortor ultrices finibus. Ut libero nibh, lobortis et libero nec, dapibus posuere eros. Sed sagittis euismod justo at consectetur. Nulla finibus libero placerat, cursus sapien at, eleifend ligula. Vivamus elit nisl, hendrerit ac nibh eu, ultrices tempus dui. Nam tellus neque, commodo non rhoncus eu, gravida in risus. Nullam id iaculis tortor.
+Every database request from a Cloud Firestore mobile/web client library is evaluated against your security rules before reading or writing any data. If the rules deny access to any of the specified document paths, the entire request fails.
 
-Nullam at odio in sem varius tempor sit amet vel lorem. Etiam eu hendrerit nisl. Fusce nibh mauris, vulputate sit amet ex vitae, congue rhoncus nisl. Sed eget tellus purus. Nullam tempus commodo erat ut tristique. Cras accumsan massa sit amet justo consequat eleifend. Integer scelerisque vitae tellus id consectetur.
+For example, only a site owner should be able to delete the site. Only users should be able to read data about themselves. At the bottom of the rules, there are a variety of helper functions defined to simplify your matchers.
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{uid} {
+      allow read, write: if isUser(uid);
+    }
+
+    match /feedback/{uid} {
+      allow read: if true;
+      allow delete: if isOwner() || isSiteOwner();
+      allow update: if isOwner() && willBeOwner() || isSiteOwner() && willBeSiteOwner();
+      allow create: if willBeOwner();
+    }
+
+    match /sites/{uid} {
+      allow read: if isOwner();
+      allow delete: if isOwner();
+      allow update: if isOwner() && willBeOwner();
+      allow create: if willBeOwner();
+    }
+  }
+}
+
+function isUser(uid) {
+  return isSignedIn() && request.auth.uid == uid;
+}
+
+function isSignedIn() {
+  return request.auth.uid != null;
+}
+
+function isOwner(){
+  return isUser(currentData().authorId);
+}
+
+function isSiteOwner(){
+  return isUser(currentData().siteAuthorId);
+}
+
+function willBeOwner(){
+  return isUser(incomingData().authorId);
+}
+
+function willBeSiteOwner(){
+  return isUser(incomingData().siteAuthorId);
+}
+
+function currentData() {
+  return resource.data;
+}
+
+function incomingData() {
+  return request.resource.data;
+}
+```
+
+## Conclusion
+
+**Congrats, we made it!** ✨ Let's review this section.
+
+- We created a new project in Firebase, setting up authentication and a database.
+- We created a GitHub application to allow users to sign in to our application.
+- Our application is now configured to communicate with Firebase on the client-side.
+- We can sign in, sign out, and access user information through `useAuth`.
+- When a user logs into the application, we save their information to a `user` table in Firestore.
+- We defined security rules for client-side operations to secure our application.
