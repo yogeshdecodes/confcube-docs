@@ -2,13 +2,13 @@
 module.exports = {
   title: 'ConfCube Docs',
   tagline: "Tech Event's Social Network",
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://confcube-docs.netlify.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'yogeshdecodes', // Usually your GitHub org/user name.
-  projectName: 'confcube-docs', // Usually your repo name.
+  organizationName: 'yogeshdecodes',  
+  projectName: 'confcube-docs',  
   themeConfig: {
     hideableSidebar: true,
     navbar: {
